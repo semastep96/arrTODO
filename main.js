@@ -46,16 +46,16 @@ function changeStatus(taskName, status = STATUS_TO_DO) {
 function showList(groupBy) {
     function selectTasksByStatus(status) {
         let newList = ''
-        for (let key in list) {
-            if (list[key].status === status) { newList += `  "${list[key].name}" priority: ${list[key].priority}\n` }
+        for (let key of list) {
+            if (key.status === status) { newList += `  "${key.name}" Приоритет: ${key.priority}\n` }
         }
         if (!newList) { newList += '  -\n' }
         return newList
     }
     function selectTasksByPriority(priority) {
         let newList = ''
-        for (let key in list) {
-            if (list[key].priority === priority) { newList += `  "${list[key].name}" status: ${list[key].status}\n` }
+        for (let key of list) {
+            if (key.priority === priority) { newList += `  "${key.name}" Статус: ${key.status}\n` }
         }
         if (!newList) { newList += '  -\n' }
         return newList
@@ -85,6 +85,7 @@ deleteTask('wrong task')
 addTask('Сделать TODO на массиве объектов', PRIORITY_HIGH)
 addTask('Сходить в магазин', PRIORITY_HIGH)
 addTask('попить лимонад', PRIORITY_LOW)
+addTask('Просто таск чтобы был')
 changeStatus('попить лимонад', STATUS_IN_PROGRESS)
 changeStatus('Сделать TODO на массиве объектов', STATUS_DONE)
 
