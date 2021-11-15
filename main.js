@@ -6,6 +6,8 @@ const PRIORITY_HIGH = 'high';
 
 const list = []
 
+let idCounter = 0;
+
 function findTaskIndexByName(taskName) {
    return list.findIndex(function (el) {
         return el.name === taskName
@@ -14,7 +16,7 @@ function findTaskIndexByName(taskName) {
 
 function addTask(taskName, priority = PRIORITY_LOW) {
     list.push({
-        id: list.length + 1,
+        id: ++idCounter,
         name: taskName,
         status: STATUS_TO_DO,
         priority: priority
@@ -23,14 +25,19 @@ function addTask(taskName, priority = PRIORITY_LOW) {
 
 function deleteTask(taskName) {
     const taskIndex = findTaskIndexByName(taskName)
-    if (taskIndex >= 0) list.splice(taskIndex, 1)
+    const isTaskFound = taskIndex !== -1
+
+    if (isTaskFound) {
+        list.splice(taskIndex, 1)
+    }
 }
 
 function changeStatus(taskName, status = STATUS_TO_DO) {
     const isValidStatus = (status === STATUS_TO_DO || status === STATUS_IN_PROGRESS || status === STATUS_DONE)
     const taskIndex = findTaskIndexByName(taskName)
+    const isTaskFound = taskIndex !== -1
 
-    if (taskIndex === -1) {
+    if (!isTaskFound) {
         console.log(`${taskName}, not in list`)
         return;
     }
@@ -45,20 +52,26 @@ function changeStatus(taskName, status = STATUS_TO_DO) {
 
 function showList(groupBy) {
     function selectTasksByStatus(status) {
-        let newList = ''
+        let tasksByStatus = ''
+
         for (let key of list) {
-            if (key.status === status) { newList += `  "${key.name}" Приоритет: ${key.priority}\n` }
+            if (key.status === status) { tasksByStatus += `  "${key.name}" - Priority: ${key.priority}\n` }
         }
-        if (!newList) { newList += '  -\n' }
-        return newList
+
+        if (!tasksByStatus) { tasksByStatus += '  -\n' }
+
+        return tasksByStatus
     }
     function selectTasksByPriority(priority) {
-        let newList = ''
+        let tasksByPriority = ''
+
         for (let key of list) {
-            if (key.priority === priority) { newList += `  "${key.name}" Статус: ${key.status}\n` }
+            if (key.priority === priority) { tasksByPriority += `  "${key.name}" - Status: ${key.status}\n` }
         }
-        if (!newList) { newList += '  -\n' }
-        return newList
+
+        if (!tasksByPriority) { tasksByPriority += '  -\n' }
+
+        return tasksByPriority
     }
 
     if (groupBy === 'status') {
@@ -80,6 +93,9 @@ function showList(groupBy) {
 
     console.log(`i don't know how to show by ${groupBy}`)
 }
+
+
+
 addTask('wrong task')
 deleteTask('wrong task')
 addTask('Сделать TODO на массиве объектов', PRIORITY_HIGH)
@@ -92,3 +108,5 @@ changeStatus('Сделать TODO на массиве объектов', STATUS_
 showList('priority')
 console.log('-------------------')
 showList('status')
+
+console.log(list)
