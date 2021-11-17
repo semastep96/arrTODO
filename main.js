@@ -50,7 +50,7 @@ function changeStatus(taskName, status = STATUS_TO_DO) {
     console.log(`${status} is unknown status! Try: ${STATUS_TO_DO}, ${STATUS_IN_PROGRESS}, ${STATUS_DONE}` )
 }
 
-function showList(groupBy) {
+function showBy(groupBy) {
     function selectTasksByStatus(status) {
         let tasksByStatus = ''
 
@@ -105,8 +105,8 @@ addTask('Просто таск чтобы был')
 changeStatus('попить лимонад', STATUS_IN_PROGRESS)
 changeStatus('Сделать TODO на массиве объектов', STATUS_DONE)
 
-showList('priority')
+showBy('priority')
 console.log('-------------------')
-showList('status')
+showBy('status')
 
 console.log(list)
