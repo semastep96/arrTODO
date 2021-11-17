@@ -8,9 +8,9 @@ const list = []
 
 let idCounter = 0;
 
-function findTaskIndexByName(taskName) {
+function getTaskIndexById(taskId) {
    return list.findIndex(function (el) {
-        return el.name === taskName
+        return el.id === taskId
     })
 }
 
@@ -23,8 +23,8 @@ function addTask(taskName, priority = PRIORITY_LOW) {
     })
 }
 
-function deleteTask(taskName) {
-    const taskIndex = findTaskIndexByName(taskName)
+function deleteTask(taskId) {
+    const taskIndex = getTaskIndexById(taskId)
     const isTaskFound = taskIndex !== -1
 
     if (isTaskFound) {
@@ -32,13 +32,13 @@ function deleteTask(taskName) {
     }
 }
 
-function changeStatus(taskName, status = STATUS_TO_DO) {
+function changeStatus(taskId, status = STATUS_TO_DO) {
     const isValidStatus = (status === STATUS_TO_DO || status === STATUS_IN_PROGRESS || status === STATUS_DONE)
-    const taskIndex = findTaskIndexByName(taskName)
+    const taskIndex = getTaskIndexById(taskId)
     const isTaskFound = taskIndex !== -1
 
     if (!isTaskFound) {
-        console.log(`${taskName}, not in list`)
+        console.log(`${taskId}, not in list`)
         return;
     }
 
@@ -55,7 +55,7 @@ function showBy(groupBy) {
         let tasksByStatus = ''
 
         for (let key of list) {
-            if (key.status === status) { tasksByStatus += `  "${key.name}" - Priority: ${key.priority}\n` }
+            if (key.status === status) { tasksByStatus += `  ID:${key.id} "${key.name}" - Priority: ${key.priority}\n` }
         }
 
         if (!tasksByStatus) { tasksByStatus += '  -\n' }
@@ -66,7 +66,7 @@ function showBy(groupBy) {
         let tasksByPriority = ''
 
         for (let key of list) {
-            if (key.priority === priority) { tasksByPriority += `  "${key.name}" - Status: ${key.status}\n` }
+            if (key.priority === priority) { tasksByPriority += `  ID:${key.id} "${key.name}" - Status: ${key.status}\n` }
         }
 
         if (!tasksByPriority) { tasksByPriority += '  -\n' }
@@ -97,16 +97,14 @@ function showBy(groupBy) {
 
 
 addTask('wrong task')
-deleteTask('wrong task')
+deleteTask(1)
 addTask('Сделать TODO на массиве объектов', PRIORITY_HIGH)
 addTask('Сходить в магазин', PRIORITY_HIGH)
 addTask('попить лимонад', PRIORITY_LOW)
 addTask('Просто таск чтобы был')
-changeStatus('попить лимонад', STATUS_IN_PROGRESS)
-changeStatus('Сделать TODO на массиве объектов', STATUS_DONE)
+changeStatus(4, STATUS_IN_PROGRESS)
+changeStatus(2, STATUS_DONE)
 
 showBy('priority')
 console.log('-------------------')
 showBy('status')
-
-console.log(list)
